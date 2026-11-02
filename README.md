@@ -70,11 +70,10 @@ SAYL includes a Streamlit-based dashboard that provides:
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/USERNAME/SAYL-Multi-Agent-Flood-Rescue.git
+git clone https://github.com/lenahaobani12-dev/SAYL-Multi-Agent-Flood-Rescue.git
 cd SAYL-Multi-Agent-Flood-Rescue
 ```
 
-Replace `USERNAME` with the repository owner's GitHub username.
 
 ### Step 2: Create a Virtual Environment (Optional)
 
@@ -221,28 +220,11 @@ SAYL-Multi-Agent-Flood-Rescue/
 - **ACL-like Messaging:** Structured communication between intelligent agents.
 - **GitHub:** Source-code management and team collaboration.
 
-## 11. Project Team
 
-**Princess Nourah bint Abdulrahman University – College of Computer and Information Sciences**
-
-| Team Member | Main Responsibility |
-|---|---|
-| Lena Alhaobani | User interface, GitHub repository, abstract, and final report formatting |
-| Joud Alsoqihi | Team member |
-| Shumukh Alotaibi | Team member |
-| Layal Alamrani | Team member |
-| Latifah Alturairy | Team member |
-
-The remaining responsibilities cover flood environment simulation, NLP and command coordination, rescue agents, ACL communication, scenario implementation, and testing.
-
-## 12. Project Scope
+## 11. Project Scope
 
 SAYL is developed for academic demonstration, experimentation, and training purposes.
 
 The simulated neighborhood, environmental conditions, incident reports, and rescue resources are synthetic. The system does not connect to actual emergency response services or provide real-world rescue dispatch capabilities.
 
----
 
-**SAYL (سَيْل) – Intelligent Multi-Agent Flood Rescue System**
-
-CAI461 – Agent-Based Systems | Princess Nourah bint Abdulrahman University
