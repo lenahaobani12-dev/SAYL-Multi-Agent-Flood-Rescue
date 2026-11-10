@@ -1,4 +1,4 @@
-"""Regression tests for finite scenario completion (Phase 2, Person 4)."""
+"""Regression tests for finite scenario completion."""
 
 import pytest
 from sayl.model import SaylModel, SimParams

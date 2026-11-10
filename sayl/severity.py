@@ -1,8 +1,6 @@
 """
 Severity analysis of Arabic distress messages (the NLP part of the Distress Agent).
 
-Owner: Person 2 (Distress Agent + Command Center)
-
 Two methods are combined (hybrid):
 
 1. Rule-based analysis (always available)
@@ -34,6 +32,7 @@ Severity scale (also used to label the data)
 
 from __future__ import annotations
 
+from langsmith import traceable
 import json
 import os
 import re
@@ -218,6 +217,7 @@ def combine(rule_sev: int, ml_sev: Optional[int], ml_conf: float = 0.0) -> int:
     return max(rule_sev, ml_sev)
 
 
+@traceable(name="SAYL_Severity_Analysis")
 def analyze(text: str, use_ml: bool = True) -> Dict[str, object]:
     """Main entry point used by the Distress Agent."""
     result = rule_analysis(text)

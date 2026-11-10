@@ -1,7 +1,6 @@
 """
 Flood Monitoring Agent: watches the water and warns the other agents.
 
-Owner: Person 1 (Environment)
 Agent type: Reactive (perceives water depth and sends warnings by fixed rules).
 
 Rules

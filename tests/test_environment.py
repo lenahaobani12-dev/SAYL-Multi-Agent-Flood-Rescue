@@ -1,5 +1,5 @@
 """
-Checks for the flood environment and the Flood Monitor (Person 1).
+Checks for the flood environment and the Flood Monitor.
 
 Run:  python -m pytest tests/test_environment.py
 """

@@ -1,8 +1,7 @@
 """
 Base class for every SAYL agent.
 
-Shared file (all members). Please do not change the method names without
-telling the group, because the model and the UI call them.
+The model and dashboard use this stable shared agent interface.
 
 Every agent:
 * has a unique ``name`` and a ``kind`` (e.g. "Drone"),

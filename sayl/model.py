@@ -1,8 +1,6 @@
 """
 SaylModel: builds the environment and all agents, and runs the simulation.
 
-Owner: Person 4 (Communication, Scenarios, Integration)
-
 One tick = 1 simulated minute:
   1. the environment updates the water,
   2. the bus delivers the messages sent in the previous tick,
@@ -158,6 +156,14 @@ class SaylModel:
             return False
         if any(shelter.reserved for shelter in self.shelters):
             return False
+        # A boat may have arrived this tick, but its final INFORM is not
+        # delivered to the Command Center until the next simulation tick.
+        if self.bus._outbox or any(agent.inbox for agent in self.agents):
+            return False
+        # Only finish once the command centre has acknowledged every handoff.
+        if any(inc.rescued_people != inc.sheltered_people + inc.staged_people
+               for inc in self.env.incidents.values()):
+            return False
         return True
 
     # ------------------------------------------------------------------ statistics
@@ -172,8 +178,10 @@ class SaylModel:
             "open": sum(1 for i in incs if i.open),
             "rescued_incidents": len(done),
             "sheltered_incidents": sum(1 for i in incs if i.status == "SHELTERED"),
-            "staging_incidents": sum(1 for i in incs if i.status == "RESCUED" and i.shelter == self.command.name),
-            "people_rescued": sum(b.rescued for b in self.boats),
+            "staging_incidents": sum(1 for i in incs if i.staged_people > 0),
+            "people_rescued": sum(i.rescued_people for i in incs),
+            "people_sheltered": sum(i.sheltered_people for i in incs),
+            "people_staged": sum(i.staged_people for i in incs),
             "avg_response_ticks": round(sum(times) / len(times), 1) if times else None,
             "messages": len(self.bus.log),
             "undelivered_messages": len(self.bus.undelivered),

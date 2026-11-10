@@ -1,7 +1,6 @@
 """
 Distress Agent: reads Arabic distress messages and turns them into incidents.
 
-Owner: Person 2 (Distress Agent + Command Center)
 Agent type: Reactive. Each message is mapped straight to a severity (rules + a
 trained classifier); the agent keeps no plan and no model of the other incidents.
 
@@ -10,10 +9,6 @@ The language analysis itself lives in sayl/severity.py:
 * people count, and an optional TF-IDF + Logistic Regression classifier.
 Run `python evaluate_nlp.py` to see its accuracy on data/distress_messages.json.
 
-TODO for Person 2
------------------
-* Add more labelled messages to data/distress_messages.json (the ML part improves with data).
-* Write this agent's description, PEAS, type and behaviours in the report.
 """
 
 from __future__ import annotations
@@ -52,6 +47,7 @@ class DistressAgent(BaseAgent):
             inc = self.env.add_incident(text, pos)
             inc.severity = int(result["severity"])
             inc.people = int(result["people"])
+            inc.total_people = inc.people
             inc.tags = list(result["tags"])
             self.processed += 1
             self.last_result = {"incident": inc.incident_id, **result}

@@ -1,230 +1,159 @@
-# SAYL (سَيْل) – Intelligent Multi-Agent Flood Rescue System
+# SAYL | سَيْل
+### Intelligent Multi-Agent Flood Rescue System
 
-SAYL is a Python-based multi-agent system designed to simulate and coordinate emergency rescue operations during flash floods in a Saudi neighborhood, using Jeddah as the simulation context.
-
-The system uses cooperating intelligent agents to analyze Arabic distress messages, prioritize emergency incidents based on severity, and coordinate drones, rescue boats, and shelters. Its main objective is to demonstrate how multi-agent collaboration can improve emergency prioritization, resource allocation, and decision-making under changing flood conditions.
-
-**Course:** CAI461 – Agent-Based Systems  
+**Course:** CAI461 — Agent-Based Systems  
+**University:** Princess Nourah bint Abdulrahman University  
 **Section:** 72U  
-**University:** Princess Nourah bint Abdulrahman University
+**Technology:** Python, Streamlit, scikit-learn, LangSmith (observability)
 
+## Project Overview
 
-## 1. System Overview
+**SAYL** is a Python-based multi-agent flood rescue simulation set in a synthetic urban environment inspired by Jeddah. The system processes Arabic distress reports, estimates incident severity, prioritizes cases, and coordinates drones, rescue boats, and shelters through cooperating agents. Changes in water depth, road access, resource availability, and shelter capacity affect simulated decisions.
 
-SAYL simulates a dynamic flood environment where water levels increase, roads become inaccessible, and rescue resources are limited.
+SAYL is an **academic simulation**, not a deployed emergency-response or dispatch service.
 
-The system integrates Arabic distress-message analysis, incident prioritization, autonomous rescue agents, and ACL-based communication within an interactive monitoring dashboard.
+## Key Capabilities
 
-SAYL is an academic simulation and decision-support prototype, not a real emergency dispatch service.
+- Arabic distress-message analysis with a hybrid rule-based and machine-learning severity classifier (character TF-IDF and Logistic Regression).
+- Incident prioritization using severity, waiting time, and flood conditions.
+- Inter-agent communication with ACL-like messages and Contract Net task allocation.
+- Flood progression, road closures, shelter availability, and agent failure recovery.
+- Rescue accounting that distinguishes **rescued**, **sheltered**, and **temporary staging**.
+- Interactive Streamlit dashboard with simulation controls, agent status, incident tracking, and a searchable ACL log.
+- **Optional LangSmith tracing and evaluation** of actual severity-analysis and Contract Net decisions.
 
-## 2. Intelligent Agents
+## Agents
 
 | Agent | Type | Responsibility |
 |---|---|---|
-| Distress Agent (NLP) | Reactive | Analyzes Arabic distress messages, identifies severity levels, and creates incidents. |
-| Command Center | Deliberative | Prioritizes incidents, coordinates resources, and assigns rescue tasks. |
-| Flood Monitor | Reactive | Monitors flood conditions and updates affected areas and infrastructure. |
-| Drone Agent | Hybrid | Verifies incident locations and monitors affected areas while managing battery limitations. |
-| Rescue Boat Agent | Hybrid | Performs rescue missions and transports affected people to available shelters. |
-| Shelter Agent | Reactive | Monitors shelter capacity and accepts or refuses evacuation requests. |
+| Distress Agent | Reactive | Interprets Arabic reports and creates prioritized incidents. |
+| Command Center | Deliberative | Prioritizes tasks, gathers offers through Contract Net, and coordinates rescue and shelter allocation. |
+| Flood Monitor | Reactive | Tracks flood risks, road closures, and shelter safety. |
+| Drone | Hybrid | Verifies incidents and reports field observations. |
+| Rescue Boat | Hybrid | Picks up and transports residents to shelters or temporary staging. |
+| Shelter | Reactive | Reserves places, confirms admission, or refuses unsafe/full requests. |
 
-## 3. Agent Communication
+Agents use ACL-like performatives, including `REQUEST`, `INFORM`, `CFP`, `PROPOSE`, `ACCEPT`, `REJECT`, `AGREE`, `REFUSE`, and `FAILURE`.
 
-Agents coordinate through an ACL-like communication protocol.
+## Installation
 
-The system supports the following message performatives:
-
-- **REQUEST:** Requests an action from another agent.
-- **INFORM:** Communicates information or status updates.
-- **CFP:** Requests proposals for a task.
-- **PROPOSE:** Offers to execute a requested task.
-- **ACCEPT:** Accepts an agent's proposal.
-- **REFUSE / REJECT:** Declines a request or rejects a proposal.
-- **AGREE:** Confirms an agent's agreement to perform an action.
-- **FAILURE:** Reports an unsuccessful operation or agent failure.
-
-These messages enable coordination, resource negotiation, task allocation, and failure recovery.
-
-## 4. Interactive Dashboard
-
-SAYL includes a Streamlit-based dashboard that provides:
-
-- Real-time simulation status and system indicators.
-- Interactive flood map with water-level visualization.
-- Road closures and rescue resource locations.
-- Live status monitoring for drones, boats, shelters, and coordination agents.
-- Arabic distress-message submission.
-- Incident tracking and rescue assignments.
-- ACL communication logs with filtering and CSV export.
-- Adjustable simulation parameters, including rainfall, rescue resources, shelter capacity, and agent failure rate.
-- Run, Pause, Step, and Reset controls.
-
-## 5. Installation
-
-### Requirements
-
-- Python 3.9 or newer (Python 3.10+ recommended).
-- Git.
-- Python dependencies listed in `requirements.txt`.
-
-### Step 1: Clone the Repository
+**Recommended:** Python 3.11 or 3.12 (the project uses Python 3.10+ compatible syntax). Install the dependencies in a virtual environment if possible.
 
 ```bash
 git clone https://github.com/lenahaobani12-dev/SAYL-Multi-Agent-Flood-Rescue.git
 cd SAYL-Multi-Agent-Flood-Rescue
-```
-
-
-### Step 2: Create a Virtual Environment (Optional)
-
-```bash
-python -m venv venv
-```
-
-Activate the environment:
-
-**Windows:**
-
-```powershell
-venv\Scripts\activate
-```
-
-**macOS / Linux:**
-
-```bash
-source venv/bin/activate
-```
-
-### Step 3: Install Dependencies
-
-```bash
 python -m pip install -r requirements.txt
 ```
 
-## 6. Running the System
+For the supplied ZIP, extract the project folder and run the `pip install` command from the folder containing `app.py` and `requirements.txt`.
 
-Start the interactive dashboard using:
+## Run the Dashboard
 
 ```bash
 python -m streamlit run app.py
 ```
 
-After starting the application, open the local URL shown in the terminal, typically:
+Open the local URL shown by Streamlit (usually `http://localhost:8501`). From the **right-side Mission Control** panel, choose a scenario, adjust any needed settings, and select **Apply scenario / Reset**. Use **Run**, **Pause**, and **Step** to control the simulation. Scenario presets can be overridden by disabling **Use scenario preset settings**. You can also enter a simulated Arabic distress report and inspect the resulting incidents and ACL messages.
 
-`http://localhost:8501`
+### Scenarios
 
-### How to Use SAYL
+| Scenario | Purpose |
+|---|---|
+| Normal Operation | Verifies reports, assigns rescuers, and confirms shelter admission. |
+| Resource Conflict | Tests multiple simultaneous incidents competing for limited rescue resources and shelter places. |
+| Agent Failure | Tests failure reports and reassignment of drone and boat tasks. |
 
-1. Select one of the available simulation scenarios.
-2. Adjust the simulation parameters using the sidebar controls.
-3. Apply or reset the selected scenario.
-4. Press **Run** to begin automatic simulation or **Step** to advance one simulation tick.
-5. Observe changes in the flood map, rescue resources, and agent status.
-6. Submit a custom Arabic distress message and select its simulated location.
-7. Monitor incident prioritization, rescue assignments, and ACL communication.
-8. Use **Pause** to stop execution temporarily or **Reset** to restart the scenario.
-
-## 7. Testing Scenarios
-
-Three scenarios demonstrate the system's capabilities.
-
-### Scenario 1: Normal Rescue Operations
-
-Simulates a flood emergency with a small number of distress reports.
-
-The agents analyze incoming messages, prioritize incidents, coordinate available rescue resources, and perform evacuation operations.
-
-### Scenario 2: Multiple Distress Reports and Resource Conflicts
-
-Simulates several emergency reports arriving within a short period while drones, boats, and shelter spaces are limited.
-
-This scenario demonstrates incident prioritization, resource negotiation, and shelter-capacity constraints.
-
-### Scenario 3: Agent Failure and Recovery
-
-Simulates unexpected failures affecting rescue agents during emergency operations.
-
-The system demonstrates how failure notifications are communicated and how the Command Center responds by attempting to reassign tasks.
-
-### Scenario Completion
-
-For scripted scenarios, the simulation automatically pauses when scheduled reports have been processed, incidents have been resolved, and required rescue operations have been completed.
-
-Simulation results and completion times may vary depending on the configured parameters.
-
-## 8. Testing and Evaluation
-
-The project includes automated tests and command-line simulation tools.
-
-Run the automated tests:
+## Testing and Local Evaluation
 
 ```bash
-python -m pytest tests
-```
-
-Run the three scenarios without the graphical interface:
-
-```bash
+python -m pytest -q
 python run_headless.py
-```
-
-Run a specific scenario:
-
-```bash
-python run_headless.py 3 60
-```
-
-Evaluate the Arabic distress-message severity classifier:
-
-```bash
+python run_headless.py 3 100
 python evaluate_nlp.py
 ```
 
-These commands support functional verification, scenario execution, and evaluation of the distress-message analysis component.
+`run_headless.py` runs the scripted scenarios without the dashboard. `evaluate_nlp.py` reports agreement with the 100 labelled Arabic messages distributed with the project; these in-sample results are not an independent generalization estimate.
 
-## 9. Project Structure
+## LangSmith Integration (Lab 9 Concepts)
+
+LangSmith provides **observability**, not an additional rescue agent or a replacement for the existing decision logic. The implementation traces two real operations:
+
+- `SAYL_Severity_Analysis` — inputs and outputs of the Arabic severity classifier in `sayl/severity.py`.
+- `SAYL_Contract_Net_Decision` — candidate proposals, selected drone/boat, and estimated arrival time in `sayl/agents/command_center.py`.
+
+These traces support inspection of **inputs, outputs, errors, and latency**. The LangSmith dashboard also provides **Monitoring/Analytics** for run counts and timing.
+
+### Enable tracing (optional)
+
+1. Sign in at https://smith.langchain.com and generate a **LangSmith API key**.
+2. Configure the following environment variables **locally** before running Python. Do not put keys in the source code, ZIP, screenshots, or GitHub.
+
+**Windows PowerShell:**
+
+```powershell
+$env:LANGSMITH_TRACING = "true"
+$env:LANGSMITH_PROJECT = "SAYL-Flood-Rescue"
+$secret = Read-Host "LangSmith API Key" -AsSecureString
+$env:LANGSMITH_API_KEY = [System.Net.NetworkCredential]::new("", $secret).Password
+Remove-Variable secret
+```
+
+**macOS/Linux (bash/zsh):**
+
+```bash
+export LANGSMITH_TRACING=true
+export LANGSMITH_PROJECT=SAYL-Flood-Rescue
+read -rs -p "LangSmith API Key: " LANGSMITH_API_KEY; echo
+export LANGSMITH_API_KEY
+```
+
+3. In that **same terminal**, run `python run_headless.py 1 100` (or launch the dashboard), then inspect **Tracing** under the `SAYL-Flood-Rescue` project in LangSmith.
+
+Tracing requires an API key and network access. The core local simulation does not rely on LangSmith's remote service for rescue decisions. Turn it off with `LANGSMITH_TRACING=false` or unset the variable when tracing is unnecessary.
+
+### LangSmith evaluation
+
+In **Datasets & Experiments**, create a dataset called **`SAYL-Arabic-Severity`** if it does not already exist. Then, with a valid API key available in the environment, run:
+
+```bash
+python evaluate_langsmith.py
+```
+
+The script uploads the project's 100 labelled messages only if the dataset is empty, evaluates the existing `analyze()` function, and records an experiment with the **`severity_exact_match`** evaluator. In the documented LangSmith run, the experiment completed **100/100** examples and measured **80% exact agreement**. This is **in-sample agreement** because the classifier trains on the same bundled examples; it is **not** held-out test accuracy. The report separately presents five-fold cross-validation (69% exact match for the hybrid method), which measures a different evaluation protocol. These percentages must not be compared as if they were obtained under identical test conditions.
+
+Use only **synthetic distress messages** for cloud traces, because input text and outputs may be transmitted to LangSmith.
+
+## Project Structure
 
 ```text
 SAYL-Multi-Agent-Flood-Rescue/
-│
-├── app.py
-├── README.md
+├── .streamlit/config.toml
+├── app.py                       # Streamlit dashboard
+├── run_headless.py              # Scripted simulations
+├── evaluate_nlp.py              # Local severity agreement
+├── evaluate_langsmith.py        # LangSmith dataset + experiment
+├── check_langsmith.py           # Local trace-emission example
 ├── requirements.txt
-├── run_headless.py
-├── evaluate_nlp.py
-├── .gitignore
-│
+├── README.md
+├── data/distress_messages.json
 ├── sayl/
 │   ├── acl.py
 │   ├── environment.py
-│   ├── severity.py
 │   ├── model.py
 │   ├── scenarios.py
+│   ├── severity.py
+│   ├── ui_theme.py
 │   └── agents/
-│       └── Agent implementation files
-│
-├── data/
-│   └── distress_messages.json
-│
+│       ├── base.py
+│       ├── boat.py
+│       ├── command_center.py
+│       ├── distress_agent.py
+│       ├── drone.py
+│       ├── flood_agent.py
+│       └── shelter.py
 └── tests/
-    └── Automated test files
 ```
 
-## 10. Technologies Used
+## Academic Scope and Limitations
 
-- **Python:** Core system implementation.
-- **Streamlit:** Interactive user interface.
-- **Multi-Agent Systems:** Distributed decision-making and collaboration.
-- **Arabic NLP:** Distress-message processing and severity classification.
-- **TF-IDF and Logistic Regression:** Components of the severity-classification approach.
-- **ACL-like Messaging:** Structured communication between intelligent agents.
-- **GitHub:** Source-code management and team collaboration.
-
-
-## 11. Project Scope
-
-SAYL is developed for academic demonstration, experimentation, and training purposes.
-
-The simulated neighborhood, environmental conditions, incident reports, and rescue resources are synthetic. The system does not connect to actual emergency response services or provide real-world rescue dispatch capabilities.
-
-
+The terrain, reports, flood dynamics, rescue activities, and shelter operations are simulated. Scenario results illustrate multi-agent coordination under controlled assumptions and are not validated for live emergency deployment. LangSmith metrics describe the traced processes and should not be interpreted as evidence of field operational readiness.

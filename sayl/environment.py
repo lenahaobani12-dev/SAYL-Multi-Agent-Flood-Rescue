@@ -1,8 +1,6 @@
 """
 The flood environment: a grid that represents a neighbourhood in Jeddah.
 
-Owner: Person 1 (Environment)
-
 What this file does
 -------------------
 * MAP. A 30 x 20 grid (one cell is about 50 m, so the map is roughly 1.5 km x 1 km).
@@ -23,7 +21,7 @@ What this file does
 * FORECAST. ``forecast(n)`` runs the same rules n ticks into the future on a copy,
   so the Flood Monitor can warn before a place is flooded.
 * PATH FINDING. ``find_path(start, goal, mode)`` is an A* search that avoids closed
-  roads (mode "ground") or prefers water (mode "boat"). Person 3 can use it.
+  roads (mode "ground") or prefers water (mode "boat"). Rescue agents use this route.
 * INCIDENTS. Incidents (people asking for help) live here, so every agent sees them.
 
 One tick = 1 simulated minute. The rain / drain numbers are scaled for the demo
@@ -62,7 +60,11 @@ class Incident:
     text: str
     created_tick: int
     severity: int = 1            # 1 (low) .. 5 (critical)
-    people: int = 1
+    people: int = 1              # People still awaiting pickup at the incident
+    total_people: int = 1        # Original group size, including all rescue trips
+    rescued_people: int = 0      # Picked up by rescue teams
+    sheltered_people: int = 0    # Admitted by shelter agents
+    staged_people: int = 0       # Delivered to temporary command-centre staging
     tags: List[str] = field(default_factory=list)
     status: str = "NEW"          # NEW -> VERIFYING -> VERIFIED -> RESCUING -> RESCUED -> SHELTERED
     drone: Optional[str] = None

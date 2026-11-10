@@ -1,9 +1,7 @@
 """
 ACL-like messaging for SAYL.
 
-Owner: Person 4 (Communication & Scenarios)
-Shared file: everyone uses ACLMessage and MessageBus. Please agree in the group
-before changing the fields of ACLMessage, because every agent depends on them.
+Agents communicate through the shared ACLMessage and MessageBus interfaces.
 
 How it works
 ------------
@@ -86,7 +84,7 @@ class MessageBus:
         self._outbox: List[ACLMessage] = []
         self.log: List[ACLMessage] = []
         # Messages to an unregistered receiver are audited rather than crashing
-        # the simulation. This is useful when checking merged team code.
+        # the simulation. This makes communication failures observable during testing.
         self.undelivered: List[ACLMessage] = []
         self.tick = 0
 

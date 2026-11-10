@@ -1,17 +1,11 @@
 """
 Drone Agent: flies to a reported location and confirms what is happening.
 
-Owner: Person 3 (Drones + Boats + Shelters)
 Agent type: Hybrid (reacts to battery and failures, but plans whether it has
 enough battery for a round trip before it proposes).
 
 States: IDLE -> FLYING -> RETURNING -> CHARGING -> IDLE   (or FAILED)
 
-TODO for Person 3
------------------
-* Tune speed / battery numbers so the demo looks realistic.
-* Let a failed drone be repaired after some ticks (optional).
-* Write this agent's description, PEAS, type and behaviours in the report.
 """
 
 from __future__ import annotations

@@ -1,0 +1,15 @@
+# Official Streamlit theme settings; no custom HTML/CSS or JS files.
+[theme]
+base = "light"
+primaryColor = "#087F8C"
+backgroundColor = "#F4F8FB"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#17354A"
+font = "sans-serif"
+borderColor = "#CBDCE6"
+dataframeBorderColor = "#CBDCE6"
+dataframeHeaderBackgroundColor = "#EAF3F7"
+dataframeHeaderTextColor = "#17354A"
+
+[client]
+toolbarMode = "minimal"

@@ -1,8 +1,6 @@
 """
 The three testing scenarios required by the project (section 4.7 of the report).
 
-Owner: Person 4 (Communication, Scenarios, Integration)
-
 1. Normal operation       - agents working individually and together.
 2. Many reports at once   - conflict: more incidents than drones/boats, small shelters.
 3. Agent failure          - a drone fails mid-flight and a boat gets stuck;
@@ -10,11 +8,7 @@ Owner: Person 4 (Communication, Scenarios, Integration)
 
 Each scenario returns (SimParams, events). An event is (tick, function(model)).
 
-Person 4 validation
--------------------
-* Scenario parameters and seeded events are fixed for repeatable evaluation.
-* run_headless.py can export an audit report and scenario evidence images.
-* Actual Streamlit interface screenshots should be captured after Person 5 finishes.
+Scenario parameters and seeded events support repeatable evaluation.
 """
 
 from __future__ import annotations
